@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<definitions xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+             xmlns:tns="urn:arnleadservicewsdl"
+             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+             xmlns="http://schemas.xmlsoap.org/wsdl/"
+             targetNamespace="urn:soapservicewsdl">
+
+    <types>
+        <xsd:schema targetNamespace="urn:soapwsdl">
+            <xsd:import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+            <xsd:import namespace="http://schemas.xmlsoap.org/wsdl/"/>
+        </xsd:schema>
+    </types>
+
+    <message name="soapRequest">
+        <part name="name" type="xsd:string"/>
+    </message>
+
+    <message name="soapResponse">
+        <part name="return" type="xsd:string"/>
+    </message>
+
+    <portType name="soapwsdlPortType">
+        <operation name="soap">
+            <documentation>Soap Service</documentation>
+            <input message="tns:soapRequest"/>
+            <output message="tns:soapResponse"/>
+        </operation>
+    </portType>
+
+    <binding name="soapwsdlBinding" type="tns:soapwsdlPortType">
+        <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="soap">
+            <soap:operation soapAction="urn:arnleadservicewsdl#soap" style="rpc"/>
+
+            <input>
+                <soap:body use="encoded" namespace="urn:soapwsdl"
+                           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+
+            <output>
+                <soap:body use="encoded" namespace="urn:soapwsdl"
+                           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>
+    </binding>
+
+    <service name="soapwsdl">
+        <port name="soapwsdlPort" binding="tns:soapwsdlBinding">
+            <soap:address location="http://127.0.0.1/soap"/>
+        </port>
+    </service>
+</definitions>
